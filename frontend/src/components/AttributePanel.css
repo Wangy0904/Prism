@@ -1,0 +1,231 @@
+/* ===== 整体面板 ===== */
+.attribute-panel {
+  position: relative;
+  padding: 0 0 12px;
+}
+
+/* header：标题 + 生成按钮 */
+.attribute-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.attribute-panel__title {
+  font-size: 16px; 
+  font-weight: 600;
+  color: #222;
+}
+
+.attribute-panel__generate-btn {
+  background-color: #5B8BA7; /* 替换为深蓝色 */
+  color: #fff;
+  border: none;
+  padding: 8px 20px;       /* 尺寸变大 */
+  border-radius: 6px;
+  font-size: 14px;         /* 字号变大 */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(91, 139, 167, 0.15); /* 换成了真正的蓝灰色阴影 */
+}
+
+.attribute-panel__generate-btn:hover {
+  background: #4A758E; /* 悬浮时变成更有质感的深蓝色 */
+  box-shadow: 0 4px 12px rgba(91, 139, 167, 0.3); /* 阴影对应加深 */
+}
+
+/* 空状态 */
+.attribute-panel__empty {
+  text-align: center;
+  color: #bbb;
+  padding: 24px 0;
+  font-size: 13px;
+}
+
+/* ===== 竖向4个框 ===== */
+.attribute-panel__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+/* ===== 单个属性组 ===== */
+.attr-group {
+  border: 1px solid #e8e8e8;
+  /* 👇 新增：顶部 4px 的实线边框，默认透明，由具体颜色类覆盖 */
+  border-top: 4px solid transparent; 
+  border-radius: 8px;
+  padding: 16px 20px; 
+  background: #fff;
+  min-height: 300px;
+  /* 👇 新增：非常柔和的阴影，让卡片更立体 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); 
+  transition: box-shadow 0.3s ease;
+}
+
+.attr-group:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06); /* 鼠标悬浮时阴影稍微加深 */
+}
+
+/* ===== 四个标题（联想功能、联想交互等） ===== */
+.attr-group__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px; /* 标题和下面标签的间距 */
+}
+
+.attr-group__label {
+  font-size: 16px; 
+  font-weight: 600;
+  /* 注意：把原先这里的 margin-bottom 删掉了，交给 header 控制 */
+}
+
+/* 局部重新生成按钮 */
+.attr-group__refresh-btn {
+  background: transparent;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  color: #666;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.attr-group__refresh-btn:hover {
+  color: #5B8BA7;
+  border-color: #5B8BA7;
+  background: #f5f5f5;
+}
+
+.attr-group__refresh-btn:disabled {
+  color: #ccc;
+  border-color: #eee;
+  cursor: not-allowed;
+  background: transparent;
+}
+
+/* 根据 JSX 传入的 color 给卡片顶部上色 */
+.attr-group--green  { border-top-color: #5B8BA7; }
+.attr-group--blue   { border-top-color: #3E4852; } /* 吸取的深灰色 */
+.attr-group--orange { border-top-color: #D4A573; }
+.attr-group--purple { border-top-color: #6AC3C3; }
+
+
+/* ===== 标题颜色 ===== */
+.attr-group__label--green  { color: #5B8BA7; }
+.attr-group__label--blue   { color: #3E4852; }
+.attr-group__label--orange { color: #D4A573; }
+.attr-group__label--purple { color: #6AC3C3; }
+
+
+/* ===== 属性值 Tag ===== */
+.attr-group__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.attr-tag {
+  display: inline-block;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+  
+  white-space: normal;/* 2. 允许文字换行，去掉之前的 nowrap 和 ellipsis */
+  word-break: break-word;
+}
+
+/* ===== 属性值 Tag 颜色更新 (采用你的浅色底+深色字色卡) ===== */
+/* 第1组: 灰蓝色调 */
+.attr-tag--green { color: #5B8BA7; border-color: transparent; background: #E7F1F6; }
+.attr-tag--green.attr-tag--selected { background: #5B8BA7; color: #fff; border-color: #5B8BA7; }
+
+/* 第2组: 深灰色调 */
+.attr-tag--blue { color: #3E4852; border-color: transparent; background: #F5F5F5; }
+.attr-tag--blue.attr-tag--selected { background: #3E4852; color: #fff; border-color: #3E4852; }
+
+/* 第3组: 暖咖/橙色调 */
+.attr-tag--orange { color: #D4A573; border-color: transparent; background: #FFF7F0; }
+.attr-tag--orange.attr-tag--selected { background: #D4A573; color: #fff; border-color: #D4A573; }
+
+/* 第4组: 青色调 */
+.attr-tag--purple { color: #6AC3C3; border-color: transparent; background: #E6F6F6; }
+.attr-tag--purple.attr-tag--selected { background: #6AC3C3; color: #fff; border-color: #6AC3C3; }
+
+
+
+.attr-tag--empty {
+  color: #ccc;
+  border-color: #eee;
+  background: #fafafa;
+  cursor: default;
+}
+
+.attr-tag--skeleton {
+  width: 60px;
+  height: 24px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.2s infinite;
+  border-color: transparent;
+  border-radius: 4px;
+}
+
+.attr-tag--skeleton-sm {
+  width: 40px;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.attr-tag:hover {
+  filter: brightness(0.95);
+}
+
+/* ===== 新增：卡片底部容器（放算法按钮） ===== */
+.attr-group__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.attr-group__algo-btn {
+  background: transparent;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 按钮的四种主题色悬浮效果 */
+.attr-group__algo-btn--green  { color: #5B8BA7; border-color: #5B8BA7; }
+.attr-group__algo-btn--green:hover  { background: #5B8BA7; color: #fff; }
+
+.attr-group__algo-btn--blue   { color: #3E4852; border-color: #3E4852; }
+.attr-group__algo-btn--blue:hover   { background: #3E4852; color: #fff; }
+
+.attr-group__algo-btn--orange { color: #D4A573; border-color: #D4A573; }
+.attr-group__algo-btn--orange:hover { background: #D4A573; color: #fff; }
+
+.attr-group__algo-btn--purple { color: #6AC3C3; border-color: #6AC3C3; }
+.attr-group__algo-btn--purple:hover { background: #6AC3C3; color: #fff; }

@@ -1,0 +1,55 @@
+.workspace {
+  width: 100%; 
+  padding: 24px 40px; 
+  box-sizing: border-box;
+
+  background-color: #FAF9F7;
+  /* 最好加上下面这行，确保背景能铺满整个屏幕的高度 */
+  min-height: 100vh;
+  
+  /* === 新增以下代码 === */
+  display: flex;
+  flex-direction: column;
+  gap: 36px; /* 统一控制上、中、下三个区块的间距，你可以根据喜好把 36px 调大或调小 */
+}
+
+
+
+/* ===== 底部操作栏（生成想法） ===== */
+.workspace__action-row {
+  display: flex;
+  justify-content: flex-end; /* 改为 flex-end，让按钮靠最右边 */
+  align-items: center;
+  margin-top: 24px;        /* 稍微调整一下间距 */
+  padding-bottom: 40px;
+}
+
+.workspace__generate-idea-btn {
+  background-color: #5B8BA7; /* 改为主色调深蓝色 */
+  color: #fff;
+  border: none;
+  /* 完全对齐 .attribute-panel__generate-btn 的尺寸 */
+  padding: 8px 20px;       
+  border-radius: 6px;
+  font-size: 14px;         
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(91, 139, 167, 0.15); /* 改为蓝灰色的阴影 */
+}
+
+/* 正常状态下的 Hover 效果 */
+.workspace__generate-idea-btn:hover:not(:disabled) {
+  background: #4A758E; /* 悬浮时稍微加深的蓝色 */
+  box-shadow: 0 4px 12px rgba(91, 139, 167, 0.3); /* 阴影也对应加深 */
+}
+
+/* 没选属性时的禁用（置灰）状态 */
+.workspace__generate-idea-btn:disabled {
+  background-color: #d9d9d9;
+  color: #fff;
+  box-shadow: none;
+  cursor: not-allowed;
+}

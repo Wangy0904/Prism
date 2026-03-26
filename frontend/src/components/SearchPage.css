@@ -1,0 +1,135 @@
+
+
+.search-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto; 
+  height: 100vh;
+}
+
+.search-page__header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #252526;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-page__logo {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.search-page__form {
+  flex: 1;
+  max-width: 600px;
+  display: flex;
+  gap: 8px;
+}
+
+.search-page__input {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 20px;
+  border: 1px solid #3c3c3c;
+  background-color: #1e1e1e;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-page__input:focus {
+  border-color: #5b8ba7;
+}
+
+.search-page__btn {
+  padding: 10px 24px;
+  border-radius: 20px;
+  background-color: #5b8ba7;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.search-page__btn:hover {
+  opacity: 0.9;
+}
+
+.search-page__gallery {
+  padding: 24px 32px;
+  flex: 1;
+}
+
+/* 核心瀑布流布局 */
+.waterfall-container {
+  column-count: 5; /* 默认5列 */
+  column-gap: 16px;
+}
+
+.waterfall-item {
+  position: relative;
+  break-inside: avoid; /* 防止元素跨列截断 */
+  margin-bottom: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.waterfall-item img {
+  width: 100%;
+  display: block;
+}
+
+.waterfall-item__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* Hover 效果 */
+.waterfall-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.waterfall-item:hover .waterfall-item__overlay {
+  opacity: 1;
+}
+
+/* 搜索后才允许点击 */
+.waterfall-item.clickable {
+  cursor: pointer;
+}
+
+.waterfall-item:not(.clickable) {
+  cursor: default;
+}
+.waterfall-item:not(.clickable) .waterfall-item__overlay {
+  display: none; /* 未搜索时不显示遮罩文字 */
+}
+
+/* 响应式调整列数 */
+@media (max-width: 1400px) { .waterfall-container { column-count: 4; } }
+@media (max-width: 1024px) { .waterfall-container { column-count: 3; } }
+@media (max-width: 768px) { .waterfall-container { column-count: 2; } }

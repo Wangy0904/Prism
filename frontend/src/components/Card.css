@@ -1,0 +1,415 @@
+.product-card {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+ 
+  /* 👇 加上 !important，强行覆盖掉所有冲突，静态下也显示深蓝边框 */
+  border: 1.5px solid #5B8BA7 !important;
+
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  overflow: hidden;
+  min-height: 160px;
+}
+
+
+.product-card:hover {
+  /* 鼠标悬浮时边框颜色稍微加深，更有质感 */
+  border-color: #4A758E; 
+  /* 加上一点同色系的柔和阴影 */
+  box-shadow: 0 4px 16px rgba(91, 139, 167, 0.2); 
+}
+
+
+
+
+/* 图片区 */
+.product-card__image-wrap {
+  width: 120px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+.product-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 信息区 */
+.product-card__info {
+  /* 上下左右的内边距加大，尤其是左边给 32px，这样文字就不会贴着图片了 */
+  padding: 24px 32px; 
+  display: flex;
+  flex-direction: column;
+  /* 去掉原来的 gap: 8px; */
+  /* 使用 space-between 让源产品、联想物、相似性这三块在垂直方向上均匀散开 */
+  justify-content: space-between; 
+  flex: 1;
+  min-width: 0;
+}
+
+/* 源产品名称 */
+.product-card__source-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+}
+
+.product-card__label {
+  font-size: 11px;
+  color: #999;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* 联想物标签组 */
+.product-card__assoc-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card__assoc-tags {
+  display: flex;
+  flex-wrap: wrap; /* 允许换行 */
+  
+  gap: 16px; 
+  
+  align-items: center;
+  margin-top: 10px; /* 顺便拉开一点点与上面灰色提示标签的距离 */
+}
+
+
+/* 联想物药丸标签 */
+.product-card__assoc-tag {
+  display: inline-flex;
+  align-items: center;
+  /* 增加 Gap，让里面的图标（或数字）和文字之间也舒展一点 */
+  gap: 6px; 
+  /* 核心改动：字号保持 14px (或按你喜欢的 13px) */
+  font-size: 14px; 
+  font-weight: 500; /* 加粗一点，让字在更大的框里不显得飘 */
+  color: #444;
+  background: #f5f5f5;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 24px; /* 圆角也顺便加到足够大 */
+  
+  /* === 核心核心改动：全面加大 Padding，让框看起来大很多 === */
+  /* 上下 12px，左右 24px。这是一个非常饱满、高级的药丸尺寸 */
+  padding: 12px 24px; 
+  
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+
+.product-card__assoc-tag:hover {
+  border-color: #5B8BA7;
+  background: #E7F1F6; /* 浅蓝色背景 */
+  color: #5B8BA7;      /* 深蓝色文字 */
+}
+
+.product-card__assoc-tag--active {
+  border-color: #5B8BA7;
+  background: #5B8BA7; /* 深蓝色背景 */
+  color: #fff;         /* 白色文字 */
+  font-weight: 700;
+}
+
+
+/* 语义距离数字 */
+.product-card__distance {
+  font-size: 10px;
+  color: #999;
+  background: #efefef;
+  border-radius: 8px;
+  padding: 1px 5px;
+}
+
+
+/* 激活状态下的数字底色变半透明白 */
+.product-card__assoc-tag--active .product-card__distance {
+  background: rgba(255, 255, 255, 0.25); 
+  color: #fff;
+  font-weight: 700;
+}
+
+
+/* 形态相似性 */
+.product-card__similarity-row {
+  display: flex;
+  flex-direction: column;
+}
+.product-card__similarity {
+  font-size: 18px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* 占位和loading */
+.product-card__placeholder {
+  font-size: 12px;
+  color: #bbb;
+}
+
+.product-card__loading {
+  font-size: 12px;
+  color: #5B8BA7; /* 深蓝色 */
+}
+
+/* 生成/重新生成按钮 */
+.product-card__regen-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #5B8BA7; /* 深蓝色 */
+  background: none;
+  border: 1px solid #5B8BA7; /* 深蓝色描边 */
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 3px 10px;
+  width: fit-content;
+  transition: background 0.15s;
+  
+  /* 保持之前的绝对定位 */
+  position: absolute;
+  bottom: 24px; 
+  right: 32px;  
+}
+
+
+
+.product-card__regen-btn:hover {
+  background: #E7F1F6; /* 浅蓝色悬浮背景 */
+  color: #5B8BA7;
+}
+
+.product-card__regen-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 删除按钮 */
+.product-card__delete-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #c4c4c4; /* 换成低调柔和的浅灰色 */
+  color: #fff;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* 换成极其微弱的纯黑透明阴影 */
+}
+
+.product-card__delete-btn:hover {
+  background: #8c8c8c; /* 鼠标悬浮时变成深灰色，给出明确的操作反馈 */
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* 悬浮时阴影稍微加深 */
+}
+
+.product-card__recalc-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  color: #888;
+  background: none;
+  border: 1px dashed #d9d9d9;
+  border-radius: 20px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+/* 重新计算等次要小按钮 */
+.product-card__recalc-btn:hover {
+  color: #5B8BA7;
+  border-color: #5B8BA7;
+}
+
+.product-card__source-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.product-card__semantic-btn {
+  font-size: 11px;
+  color: #888;
+  background: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.product-card__semantic-btn:hover {
+  color: #5B8BA7;
+  border-color: #5B8BA7;
+}
+
+.semantic-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 600px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+}
+
+.semantic-modal__body {
+  padding: 16px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.semantic-modal__empty {
+  color: #bbb;
+  text-align: center;
+  padding: 32px 0;
+}
+
+.semantic-modal__item {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.semantic-modal__item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.semantic-modal__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+.semantic-modal__distance {
+  font-size: 12px;
+  color: #888;
+  background: #f5f5f5;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.semantic-modal__dims {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.semantic-modal__dim {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: #555;
+}
+
+.semantic-modal__dim-label {
+  color: #999;
+  white-space: nowrap;
+  width: 50px;
+  flex-shrink: 0;
+}
+
+/* ===== 设计定义可编辑框 ===== */
+.product-card__intent-wrapper {
+  margin-top: -4px;
+  margin-bottom: 12px;
+  min-height: 28px; /* 占位，防止切换为输入框时高度跳动 */
+}
+
+.product-card__intent-box {
+  background-color: #fafafa;
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px dashed transparent; 
+  cursor: text;
+  transition: all 0.2s;
+  max-width: 100%;
+}
+
+.product-card__intent-box:hover {
+  background-color: #f0f0f0;
+  border-color: #d9d9d9;
+}
+
+/* 没数据时的空状态样式 */
+.product-card__intent-box--empty {
+  border: 1px dashed #e8e8e8;
+  opacity: 0.7;
+}
+
+.product-card__intent-box--empty:hover {
+  opacity: 1;
+}
+
+.product-card__intent-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.product-card__intent-text {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 太长了显示省略号 */
+}
+
+/* 悬浮时显示的小铅笔图标 */
+.product-card__intent-edit-icon {
+  font-size: 12px;
+  color: #aaa;
+  margin-left: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.product-card__intent-box:hover .product-card__intent-edit-icon {
+  opacity: 1;
+}
+
+/* 激活时的输入框样式 */
+.product-card__intent-input {
+  width: 90%;
+  font-size: 13px;
+  padding: 5px 8px;
+  border: 1px solid #5B8BA7; /* 改成深蓝色 */
+  border-radius: 6px;
+  outline: none;
+  color: #333;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(91, 139, 167, 0.15); /* 改成深蓝色光晕 */
+}

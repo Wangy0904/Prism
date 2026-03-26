@@ -1,0 +1,137 @@
+.design-intent-bar {
+  background: transparent;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: none;
+  border: none;
+}
+
+.design-intent-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.design-intent-bar__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+}
+
+.design-intent-bar__input-group {
+  display: flex;
+  flex: 1;
+  gap: 12px;
+}
+
+.design-intent-bar__input {
+  flex: 1;
+  padding: 10px 16px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s;
+}
+
+/* 输入框聚焦时的深蓝色边框和柔和光晕 */
+.design-intent-bar__input:focus {
+  border-color: #5B8BA7;
+  box-shadow: 0 0 0 2px rgba(91, 139, 167, 0.15); 
+}
+
+/* 旁边的主按钮变成深蓝色 */
+.design-intent-bar__btn {
+  background-color: #5B8BA7; 
+  color: #fff;
+  border: none;
+  padding: 0 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* 按钮悬浮时稍微加深，增加点击质感 */
+.design-intent-bar__btn:hover:not(:disabled) {
+  background: #4A758E; 
+}
+
+.design-intent-bar__btn:disabled {
+  background: #d9d9d9;
+  cursor: not-allowed;
+}
+
+.design-intent-bar__results {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed #eee;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.design-intent-bar__results-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.design-intent-bar__tags {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* 默认状态：浅蓝底 + 深蓝字 + 深蓝边框 */
+.design-intent-bar__tag {
+  background: #E7F1F6; 
+  color: #5B8BA7;
+  border: 1px solid #5B8BA7; /* 如果你喜欢更干净的面状风格，也可以把这里改成 transparent */
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* 悬浮状态：深蓝底 + 白字 */
+.design-intent-bar__tag:hover {
+  background: #5B8BA7;
+  color: #fff;
+  border-color: #5B8BA7;
+}
+
+
+
+/* 追加在 DesignIntentBar.css 文件中 */
+
+.design-intent-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* 确保元素之间有间距 */
+}
+
+.design-intent-bar__left-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: #fff; /* 假设你的主题是深色，如果浅色请改为深色 */
+  padding-right: 16px;
+  border-right: 1px solid #444; /* 用一根竖线与后面的内容隔开 */
+  transition: opacity 0.2s;
+  font-weight: bold;
+}
+
+.ddesign-intent-bar__left-btn:hover {
+  opacity: 0.7;
+}
+
+/* 根据你的实际代码调整，如果之前有类似代码，请覆盖或合并 */

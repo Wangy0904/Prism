@@ -1,0 +1,245 @@
+
+
+/* 确保内容区域铺满并三等分 */
+.idea-page__content {
+  display: flex;
+  gap: 20px;
+  height: calc(100vh - 80px); /* 减去顶部 header 的高度 */
+  padding: 0 20px 20px;
+  box-sizing: border-box;
+}
+
+/* 统一面板样式：各自占 1 份空间 (即三等分) */
+.idea-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff; /* 纯白背景 */
+  border-radius: 12px;
+  padding: 16px;
+  overflow-y: auto;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); /* 和之前的卡片阴影保持一致 */
+}
+
+.panel-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: #333;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 10px;
+}
+
+.context-block {
+  background-color: #ffffff; /* ✨ 改成纯白，和外层背景融为一体 */
+  border: 1px solid #E7F1F6; 
+  border-left: 3.5px solid #5B8BA7; 
+  border-radius: 10px; 
+  padding: 18px 20px; 
+  margin-bottom: 12px; /* ✨ 从 24px 缩小到 12px，拉近和下方按钮的距离 */
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+}
+
+/* 2. 标题排版：加粗，并用 CSS 魔法加上同款小圆点 */
+.context-block h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #222; 
+  font-weight: 600; /* 加粗，模仿参考图里的强调感 */
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.5px;
+}
+
+/* 自动在 <h4> 标题前面加上蓝色的 • */
+.context-block h4::before {
+  content: "•";
+  color: #5B8BA7; /* 主色调蓝点 */
+  margin-right: 8px;
+  font-size: 20px; /* 圆点稍微放大一点点 */
+  line-height: 1;
+}
+
+/* 3. 正文排版：向右微调缩进，精确对齐 */
+.static-text {
+  margin: 0 0 0 16px; /* ✨ 往右推 16px，正好避开前面的小圆点，和标题文字完美左对齐 */
+  font-size: 14px;
+  color: #555; /* 正文比标题颜色稍微浅一点点，拉开层次 */
+  line-height: 1.6;
+  background: transparent; 
+  padding: 0;              
+  border: none;            
+}
+
+/* 4. 把之前遗留的内部彩色线条给清掉，防止出现两条竖线 */
+.static-text--blue { border-left: none; }
+.static-text--green { border-left: none; }
+
+.loading-text {
+  color: #888;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* 左侧场景图片样式 */
+.scene-image-container {
+  margin-top: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #eaeaea;
+}
+
+.scene-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.image-loading-placeholder {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+/* 底部按钮区域 */
+.panel-actions {
+  margin-top: auto; /* 把按钮推到最下面 */
+  display: flex;
+  gap: 10px;
+  padding-top: 20px;
+}
+
+.btn-primary, .btn-secondary {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.back-btn {
+  background-color: #5B8BA7; /* 学术深蓝 */
+  color: #ffffff; 
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px; 
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(91, 139, 167, 0.2); /* 深蓝阴影 */
+}
+
+/* 鼠标悬浮时的交互效果 */
+.back-btn:hover {
+  background-color: #4A758E; /* 悬浮时颜色加深 */
+  box-shadow: 0 4px 6px rgba(91, 139, 167, 0.3);
+}
+
+/* 鼠标点击时的按压效果 */
+.back-btn:active {
+  transform: scale(0.96);
+}
+
+.idea-page__header {
+  padding: 15px 20px; /* 上下15px，左右20px */
+  display: flex;
+  align-items: center;
+}
+
+/* “生成初步方案”按钮 - 采用与返回按钮一致的深蓝风格 */
+.btn-primary {
+  flex: 1; 
+  background-color: #5B8BA7; 
+  color: #ffffff;
+  border: none;
+  padding: 10px 0; 
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(91, 139, 167, 0.2);
+}
+
+/* 鼠标悬浮：非禁用状态下才变深 */
+.btn-primary:hover:not(:disabled) {
+  background-color: #4A758E;
+  box-shadow: 0 4px 6px rgba(91, 139, 167, 0.3);
+}
+
+/* 鼠标点击按下效果 */
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* 禁用状态（场景没出来，或者正在加载时） */
+.btn-primary:disabled {
+  background-color: #A3C0D4; /* 变成偏灰的浅蓝色 */
+  color: #ffffff;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+
+
+.btn-secondary { background-color: #e5e7eb; color: #333; }
+.btn-secondary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+
+/* 新增：单独生图的小号次要按钮 */
+.btn-secondary--small {
+  width: auto; /* 不像大按钮那样填满整行 */
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  margin-top: 8px; /* 和上面的文本框隔开一点 */
+  margin-bottom: 4px;
+}
+
+
+.btn-confirm-context {
+  margin: 0 0 16px 0; /* ✨ 上边距设为 0，下边距留 16px */
+  
+  /* 下面这些保持不变 */
+  width: 100%;
+  padding: 8px 0;
+  background-color: #f8f9fa; 
+  color: #5B8BA7; 
+  border: 1px dashed #c4d4dc; 
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 迁移属性下方的确定按钮 */
+.btn-confirm-context:hover:not(:disabled) {
+  background-color: #E7F1F6; /* 浅蓝底 */
+  border-style: solid;
+  border-color: #5B8BA7;     /* 深蓝框 */
+  color: #5B8BA7;            /* 深蓝字 */
+}
+
+.btn-confirm-context:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+

@@ -1,0 +1,198 @@
+.concept-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  
+  /* 👇 就是这里！控制卡片和下一个卡片之间的间距 */
+  margin-bottom: 4px; /* 原来是 16px，现在改成 8px，缩小一半 */
+  
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.concept-card:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.concept-card--active {
+  border-color: #5B8BA7; 
+  box-shadow: 0 0 0 2px rgba(91, 139, 167, 0.2);
+}
+
+/* 头部 */
+.concept-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.concept-card__title {
+  font-weight: 600;
+  color: #111;
+  font-size: 0.95rem;
+}
+
+.concept-card__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.concept-card__btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.concept-card__btn:hover {
+  background: #e5e7eb;
+  color: #111;
+}
+
+.concept-card__btn--danger:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* 卡片主体 */
+.concept-card__body {
+  padding: 16px;
+}
+
+.concept-card__section {
+  margin-bottom: 12px;
+}
+
+.concept-card__section:last-child {
+  margin-bottom: 0;
+}
+
+.concept-card__divider {
+  height: 1px;
+  background-color: #f3f4f6;
+  margin: 16px 0;
+}
+
+/* 第一部分：场景回顾 */
+.concept-card__section--context {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background-color: #F2F7FA; /* 稍微向我们的主色调浅蓝靠拢一点点 */
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.context-text-group {
+  flex: 1;
+}
+
+.context-text-group p {
+  margin: 0 0 6px 0;
+  font-size: 0.85rem;
+  color: #4b5563;
+  line-height: 1.4;
+}
+.context-text-group p strong {
+  color: #111;
+}
+
+.context-scene-img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+/* 第二部分：初步方案 */
+.concept-card__section--solution p {
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* 核心属性标题用深蓝色高亮 */
+.concept-card__section--solution p strong {
+  color: #5B8BA7; 
+}
+
+.solution-summary {
+  margin: 0 0 10px 0;
+  font-size: 1.05rem;
+  color: #111;
+  font-weight: 600;
+}
+
+/* 第三部分：标签 */
+.concept-card__section--tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.concept-tag {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap; /* 保持文字在一行不换行 */
+}
+
+
+
+/* 替换原来的 .concept-tag--xxx 系列 */
+.concept-tag--source {
+  background-color: #E7F1F6; /* 浅蓝底 */
+  color: #5B8BA7;            /* 深蓝字 */
+}
+
+.concept-tag--assoc {
+  background-color: #F5F5F5; /* 浅灰底 */
+  color: #374050;            /* 深灰字 */
+}
+
+.concept-tag--migrated {
+  background-color: #FFF7F0; /* 浅咖底 */
+  color: #D4A573;            /* 暖咖字 */
+}
+
+
+/* 第四部分：产品渲染图图库 */
+.gallery-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 划分为等宽的 3 列 */
+  gap: 12px; /* 图片之间的间距 */
+}
+
+.product-gen-img {
+  width: 100%; /* 填满对应的格子 */
+  aspect-ratio: 4 / 3; /* 强制锁定比例，让横竖图都排得一样整齐。如果喜欢正方形可以改成 1 / 1 */
+  object-fit: cover; /* 裁剪多余部分，保持图片不变形 */
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+/* 鼠标悬浮时微微放大 */
+.product-gen-img:hover {
+  transform: scale(1.02);
+}

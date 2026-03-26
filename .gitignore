@@ -1,0 +1,18 @@
+# --- 后端 (Python/Backend) ---
+backend/venv/
+backend/__pycache__/
+backend/.env
+backend/*.jsonl
+# 如果下面的测试数据不需要上传，也加上：
+backend/测试数据_*.json
+
+# --- 前端 (Node/Frontend) ---
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.DS_Store
+
+# --- 通用忽略 ---
+.vscode/
+.idea/
+*.log

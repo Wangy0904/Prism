@@ -1,0 +1,62 @@
+.concept-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.concept-list__empty {
+  color: #bbb;
+  font-size: 13px;
+  text-align: center;
+  padding: 32px 0;
+}
+
+/* ===== 方案编辑模式样式 ===== */
+.concept-card__edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.edit-input,
+.edit-textarea {
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box; /* 确保 padding 不会撑爆外框 */
+}
+
+.edit-input:focus,
+.edit-textarea:focus {
+  border-color: #5B8BA7; /* 换成我们的主色调深蓝 */
+  box-shadow: 0 0 0 2px rgba(91, 139, 167, 0.15); /* 换成深蓝色的柔和光晕 */
+}
+
+.edit-input--title {
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+}
+
+.edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-field label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+}
+
+.edit-textarea {
+  min-height: 60px;
+  resize: vertical; /* 允许用户上下拖动改变高度 */
+  line-height: 1.5;
+}
