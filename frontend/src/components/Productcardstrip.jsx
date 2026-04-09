@@ -143,19 +143,24 @@ export default function ProductCardStrip({
     }
   };
 
-  const handleExpandSelect = (cardId) => {
-    onSelect(cardId);
-    setExpanded(false);
-  };
-
+  // ── 如果处于展开全屏状态 ──
   if (expanded) {
     return (
       <CardSelectPage
         cards={cards}
         selectedId={selectedId}
-        onSelect={handleExpandSelect}
+        // 1. 点击卡片时，只负责在后台切换选中状态，绝不自动收起页面
+        onSelect={onSelect} 
         onDeleteCard={onDeleteCard}
-        onClose={() => setExpanded(false)}
+        // 2. 只有当用户点击顶部的“收起”或底部的“确认”按钮时，才执行翻页魔法
+        onClose={() => {
+          const cardIndex = cards.findIndex(c => c.id === selectedId);
+          if (cardIndex !== -1) {
+            // ❌ 罪魁祸首就是下面这行算错数的代码
+            setRowIndex(Math.floor(cardIndex / 3)); 
+          }
+          setExpanded(false); 
+        }}
       />
     );
   }

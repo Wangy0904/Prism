@@ -73,7 +73,8 @@
 }
 
 .chat-bubble__image {
-  max-width: 100%;
+  max-width: 200px;  /* ✨ 核心魔法：把 100% 改成 200px (或者你想要的任何大小，比如 250px) */
+  height: auto;      /* ✨ 保证图片等比例缩放 */
   border-radius: 8px;
   display: block;
   margin: 4px 0;
@@ -97,13 +98,18 @@
 
 .chat-panel__textarea {
   width: 100%;
-  resize: none;
+  min-height: 140px; /* ✨ 核心魔法：直接把最小高度撑到 120px（大概是原来的两倍，觉得不够还可以继续加） */
+  resize: vertical;  /* ✨ 体验优化：允许用户鼠标按住右下角，自己上下拖拽调节输入框的高度！ */
+  
+  /* 下面保留你原本可能有的样式，比如边距、圆角等，如果没有就直接抄下面的 */
+  padding: 12px;
   border: 1px solid #d9d9d9;
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 13px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
   outline: none;
-  transition: all 0.2s;
+  box-sizing: border-box;
 }
 
 .chat-panel__textarea:focus {

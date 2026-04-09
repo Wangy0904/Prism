@@ -6,6 +6,10 @@ from der_engine import generate_associations, generate_attributes
 import datetime
 import json
 import os
+import uuid
+import requests
+
+os.makedirs(os.path.join("static", "images"), exist_ok=True)
 
 app = Flask(__name__)
 CORS(app)  # 允许前端跨域访问
@@ -213,6 +217,10 @@ def generate_context_api():
         result = generate_context(source_product, selected_attrs)
         return jsonify({"success": True, "data": result})
     except Exception as e:
+        import traceback
+        print("\n❌❌❌ 抓到报错了！下面是详细病历本：")
+        traceback.print_exc() 
+        print("❌❌❌\n")
         return jsonify({"success": False, "error": str(e)}), 500
 
 
@@ -247,9 +255,34 @@ def generate_image_api():
 
     try:
         from der_engine import generate_image_logic
-        image_url = generate_image_logic(prompt)
-        return jsonify({"success": True, "image_url": image_url})
+        
+        # 1. 先去向大模型要那个“临时链接”
+        temp_image_url = generate_image_logic(prompt)
+        
+        if not temp_image_url:
+            return jsonify({"success": False, "error": "AI未能生成图片链接"}), 500
+
+        # 2. 核心魔法：让后端顺着临时链接，把图片悄悄下载下来
+        response = requests.get(temp_image_url, timeout=20)
+        response.raise_for_status() # 检查下载有没有出错
+
+        # 3. 给这张图起个绝不重复的乱码名字，比如：a1b2c3d4.png
+        filename = f"{uuid.uuid4().hex}.png"
+        filepath = os.path.join("static", "images", filename)
+        
+        # 4. 把图片狠狠地塞进你电脑硬盘的 static/images 文件夹里
+        with open(filepath, "wb") as f:
+            f.write(response.content)
+
+        # 5. 拼装一个属于你这台电脑的“永久链接”！
+        # Flask 天生自带一个特性：它会自动把 static 文件夹里的东西暴露在 /static/ 网址下
+        local_image_url = f"http://localhost:5000/static/images/{filename}"
+
+        # 6. 把永久链接交还给前端
+        return jsonify({"success": True, "image_url": local_image_url})
+        
     except Exception as e:
+        print(f"生图或保存失败: {e}") # 在后端终端打印一下具体报错，方便排查
         return jsonify({"success": False, "error": str(e)}), 500
     
 

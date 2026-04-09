@@ -64,14 +64,52 @@
 }
 
 /* 3. 正文排版：向右微调缩进，精确对齐 */
-.static-text {
-  margin: 0 0 0 16px; /* ✨ 往右推 16px，正好避开前面的小圆点，和标题文字完美左对齐 */
+.static-text, .editable-context-input {
+  margin: 0 0 0 16px; 
   font-size: 14px;
-  color: #555; /* 正文比标题颜色稍微浅一点点，拉开层次 */
   line-height: 1.6;
-  background: transparent; 
-  padding: 0;              
-  border: none;            
+  font-family: inherit;
+}
+
+/* 新增：可编辑输入框的样式 */
+.editable-context-input {
+  width: calc(100% - 16px); /* 减去左侧缩进 */
+  padding: 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background-color: #f9fafb; /* 浅灰色背景提示这是输入区 */
+  color: #333;
+  resize: none; /* 🚫 去掉右下角的拖拽手柄 */
+  overflow-y: auto; /* 允许垂直拉伸 */
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+/* 选中时的视觉反馈 */
+.editable-context-input:focus {
+  border-color: #5B8BA7;
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(91, 139, 167, 0.1);
+}
+
+/* 专门给 Label 用的样式 */
+.edit-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-label {
+  margin-left: 16px;
+  font-size: 12px;
+  color: #888;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+/* 场景编辑框可以稍微高一点 */
+.scene-textarea {
+  min-height: 80px;
 }
 
 /* 4. 把之前遗留的内部彩色线条给清掉，防止出现两条竖线 */
@@ -86,16 +124,21 @@
 
 /* 左侧场景图片样式 */
 .scene-image-container {
-  margin-top: 10px;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #eaeaea;
+  width: 100%;
+  display: flex;
+  justify-content: center; /* 保证内部图片绝对居中 */
+  /* 删掉了那些强行限制高度的错误代码 */
 }
 
 .scene-image {
-  width: 100%;
-  height: auto;
+  max-width: 100%;    /* ✨ 保证如果图片很宽，最多只和盒子一样宽 */
+  max-height: 280px;  /* ✨ 限制你的理想高度（想大想小随便改这个数字） */
+  width: auto;        /* ✨ 核心：把原来的 100% 换成 auto，让它根据高度自动缩放宽度 */
+  height: auto;       /* ✨ 核心：高度也自适应 */
+  object-fit: contain; 
   display: block;
+  margin: 10px auto;  /* ✨ 上下留点空隙，左右完美居中 */
+  border-radius: 8px;
 }
 
 .image-loading-placeholder {
@@ -241,5 +284,9 @@
 .btn-confirm-context:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.idea-panel--right {
+  flex: 0.7; 
 }
 

@@ -78,6 +78,7 @@ export default function SearchPage({
 
   const handleImageClick = (imgUrl) => {
     if (isSearched) {
+      console.log("【搜索页】我点击了图片，它的链接是：", imgUrl);
       trackEvent('click_search_image', { imageUrl: imgUrl });
       onEnterWorkspace("加湿器", currentIntent, imgUrl);
     }

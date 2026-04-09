@@ -4,7 +4,7 @@ import ConceptList from "./ConceptList";
 import "./IdeaGenerationPage.css";
 
 import { saveSessionAndExit } from "../../track"; // 根据你的路径调整
-import { getTesterId, resetTester, trackEvent } from "../../track"
+import { getTesterId, resetTester, trackEvent } from "../../track";
 
 export default function IdeaGenerationPage({
   onBack,
@@ -46,28 +46,45 @@ export default function IdeaGenerationPage({
   const getSelectedAttrsArray = () => {
     return editableAttrs
       .split(/、|,|，/)
-      .map(item => item.trim())
-      .filter(item => item !== "");
+      .map((item) => item.trim())
+      .filter((item) => item !== "");
   };
 
   const selectedAttrs = [...aiItems];
 
   // ── 新增：进入页面时，检查有没有从首页导入的存档需要恢复 ──────────────────
   useEffect(() => {
-    const savedIdeaData = localStorage.getItem('imported_idea_data');
+    const savedIdeaData = localStorage.getItem("imported_idea_data");
     if (savedIdeaData) {
       try {
         const parsedData = JSON.parse(savedIdeaData);
-        if (parsedData.selected_attributes) setEditableAttrs(parsedData.selected_attributes.join("、"));
+        if (parsedData.selected_attributes)
+          setEditableAttrs(parsedData.selected_attributes.join("、"));
         if (parsedData.context_data) setContextData(parsedData.context_data);
-        if (parsedData.generated_concepts) setConcepts(parsedData.generated_concepts);
+        if (parsedData.generated_concepts)
+          setConcepts(parsedData.generated_concepts);
         if (parsedData.chat_history) setChatHistory(parsedData.chat_history);
       } catch (e) {
         console.error("恢复生成页数据失败", e);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 仅挂载时执行一次
+
+  useEffect(() => {
+    // 为了防止刚进页面时，把空数据覆盖掉原本的缓存，加一个简单的判断
+    // 只有当存在有效方案或聊天记录时，才执行保存
+    if (concepts.length > 0 || Object.keys(chatHistory).length > 0) {
+      const currentData = {
+        selected_attributes: getSelectedAttrsArray(),
+        context_data: contextData,
+        generated_concepts: concepts,
+        chat_history: chatHistory,
+      };
+      // 实时写回浏览器的本地存储
+      localStorage.setItem("imported_idea_data", JSON.stringify(currentData));
+    }
+  }, [editableAttrs, contextData, concepts, chatHistory]);
 
   // ── 核心逻辑：阶段一（生成场景与痛点，并连带生图） ─────────────
 
@@ -78,8 +95,7 @@ export default function IdeaGenerationPage({
       return;
     }
 
-    trackEvent('click_generate_context', { attributes: finalAttrs.join('、') });
-
+    trackEvent("click_generate_context", { attributes: finalAttrs.join("、") });
 
     setIsGeneratingContext(true);
     setContextData({ scene: "", users: "", pain_points: "" });
@@ -168,7 +184,7 @@ export default function IdeaGenerationPage({
 
   // ── 核心逻辑：阶段二（生成具体方案，放入中间列） ─────────────
   const handleGenerateSolution = async () => {
-    trackEvent('click_generate_solution');
+    trackEvent("click_generate_solution");
     setIsGeneratingSolution(true);
     try {
       const res = await fetch("http://localhost:5000/api/generate-solution", {
@@ -212,13 +228,12 @@ export default function IdeaGenerationPage({
 
   // ── 右侧 ChatPanel 的发送逻辑 ─────────────────────────────────
   const handleSend = async (conceptId, prompt) => {
-    trackEvent('send_chat_message', { 
-      conceptId: conceptId, 
+    trackEvent("send_chat_message", {
+      conceptId: conceptId,
       promptLength: prompt.length, // 记录字数
-      promptContent: prompt        // 直接记录他说的原话
+      promptContent: prompt, // 直接记录他说的原话
     });
 
-    
     setChatHistory((prev) => ({
       ...prev,
       [conceptId]: [
@@ -264,7 +279,6 @@ export default function IdeaGenerationPage({
 
   const activeConcept = concepts.find((c) => c.id === activeChatId) ?? null;
 
-
   return (
     <div className="idea-page">
       <div className="idea-page__header">
@@ -273,7 +287,7 @@ export default function IdeaGenerationPage({
         </button>
 
         {/* 👇 新增的交卷按钮，放在右上角 */}
-        <button 
+        <button
           onClick={async () => {
             // 1. 呼叫 track.js 里的保存函数
             const success = await saveSessionAndExit({
@@ -281,21 +295,28 @@ export default function IdeaGenerationPage({
               selected_attributes: getSelectedAttrsArray(),
               context_data: contextData,
               generated_concepts: concepts,
-              chat_history: chatHistory
+              chat_history: chatHistory,
             });
-            
+
             // 2. 如果保存成功，自动退回首页，并刷新页面迎接下一个人
             if (success) {
-              onBack(); 
-              window.location.reload(); 
+              onBack();
+              window.location.reload();
             }
           }}
-          style={{ padding: '8px 16px', background: '#1890ff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', marginLeft: 'auto' }}
+          style={{
+            padding: "8px 16px",
+            background: "#1890ff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            marginLeft: "auto",
+          }}
         >
           💾 完成测试并交卷
         </button>
-
-
       </div>
 
       <div className="idea-page__content">
@@ -333,7 +354,7 @@ export default function IdeaGenerationPage({
                     backgroundColor: "#f9fafb",
                     color: "#333",
                     fontFamily: "inherit",
-                    outline: "none"
+                    outline: "none",
                   }}
                   onFocus={(e) => (e.target.style.borderColor = "#4a90e2")}
                   onBlur={(e) => (e.target.style.borderColor = "#d9d9d9")}
@@ -355,14 +376,58 @@ export default function IdeaGenerationPage({
                 : "共情生成 ↓"}
           </button>
 
+          {/* --- 目标人群与痛点区块 --- */}
+          <div className="context-block">
+            <h4>目标人群与痛点</h4>
+            {isGeneratingContext ? (
+              <p className="loading-text">正在分析人群...</p>
+            ) : (
+              <>
+                <div className="edit-field">
+                  <label className="edit-label">人群：</label>
+                  <textarea
+                    className="editable-context-input"
+                    value={contextData.users || ""}
+                    onChange={(e) =>
+                      setContextData({ ...contextData, users: e.target.value })
+                    }
+                    placeholder="暂无描述，可手动输入..."
+                    rows={2}
+                  />
+                </div>
+                <div className="edit-field">
+                  <label className="edit-label">痛点：</label>
+                  <textarea
+                    className="editable-context-input"
+                    value={contextData.pain_points || ""}
+                    onChange={(e) =>
+                      setContextData({
+                        ...contextData,
+                        pain_points: e.target.value,
+                      })
+                    }
+                    placeholder="暂无描述，可手动输入..."
+                    rows={2}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+
           <div className="context-block">
             <h4>使用场景</h4>
             {isGeneratingContext ? (
               <p className="loading-text">正在推导场景...</p>
             ) : (
-              <p className="static-text">
-                {contextData.scene || "暂无场景描述"}
-              </p>
+              <textarea
+                className="editable-context-input scene-textarea"
+                value={contextData.scene || ""}
+                onChange={(e) =>
+                  setContextData({ ...contextData, scene: e.target.value })
+                }
+                placeholder="暂无场景描述，可手动输入..."
+                rows={3}
+              />
             )}
 
             {/* 👇 新增的单独生图按钮：只有当场景文字生成完毕后才显示 */}
@@ -386,24 +451,6 @@ export default function IdeaGenerationPage({
                 <img src={sceneImage} alt="场景图" className="scene-image" />
               ) : null}
             </div>
-          </div>
-
-          <div className="context-block">
-            <h4>目标人群与痛点</h4>
-            {isGeneratingContext ? (
-              <p className="loading-text">正在分析人群...</p>
-            ) : (
-              <>
-                <p className="static-text">
-                  <strong>人群：</strong>
-                  {contextData.users || "--"}
-                </p>
-                <p className="static-text">
-                  <strong>痛点：</strong>
-                  {contextData.pain_points || "--"}
-                </p>
-              </>
-            )}
           </div>
 
           <div className="panel-actions">
@@ -434,7 +481,7 @@ export default function IdeaGenerationPage({
             onSelectConcept={(id) => setActiveChatId(id)}
             onPrefill={(text) => {
               if (typeof text === "object" && text !== null) {
-                const combined = `【功能】${text.functions || ""}\n【结构】${text.form_structure || ""}\n【反馈】${text.feedback || ""}`;
+                const combined = `【功能】${text.functions || ""}\n【反馈】${text.feedback || ""}`;
                 setPrefillText(combined);
               } else {
                 setPrefillText(text);

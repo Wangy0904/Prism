@@ -18,9 +18,9 @@ IMAGE_API_KEY = os.getenv("IMAGE_API_KEY")
 IMAGE_BASE_URL = "https://api.ourzhishi.top/v1"
 
 LLM_BASE_URL = "https://yinli.one/v1"
-LLM_MODEL    = "gemini-3-flash-preview"
+LLM_MODEL    = "claude-sonnet-4-6"
 
-SBERT_URL    = "https://u283245-b1gp-4344a5d0.bjb2.seetacloud.com:8443/calculate_distance"
+SBERT_URL    = "https://u283245-wjps-ba368233.bjb2.seetacloud.com:8443/calculate_distance"
 
 print(f"KEY: {LLM_API_KEY}")
 
@@ -52,13 +52,20 @@ def parse_json(raw: str):
     raw = raw.strip()
     if raw.startswith("```"):
         parts = raw.split("```")
-        raw = parts[1]
-        if raw.startswith("json"):
-            raw = raw[4:]
+        if len(parts) >= 2:
+            raw = parts[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
     raw = raw.strip()
     # 去掉 JSON 中的 trailing comma（如 ,} 或 ,]）
     raw = re.sub(r',\s*([}\]])', r'\1', raw)
-    return json.loads(raw)
+    
+    try:
+        return json.loads(raw)
+    except Exception as e:
+        # 👇 核心魔法：如果大模型给的格式不对，我们就把它的原话打印出来公开处刑！
+        print(f"\n❌ JSON 解析失败！大模型返回的原始文本是：\n{raw}\n")
+        raise e
 
 # 👇 引入全新的 Gemini 视觉直出函数
 from candidate_generator import generate_candidates_with_gemini_vision, generate_candidates_text_only
@@ -262,6 +269,7 @@ def generate_context(source_product: str, selected_attrs: list) -> dict:
 - **核心痛点**：由于新特性的加入，解决了原产品在特定情境下的什么顽疾或隐形诉求。
 
 ## 请严格按照 JSON 格式返回：
+警告：JSON的属性值内部【绝不允许】使用双引号（"）！如果需要强调或引述，请务必使用单引号（'）或中文直角引号（「」）替代！
 {{
   "step1_migration_logic": "思考过程：分析迁移属性的底层物理或交互价值，说明如何避免物理拼凑，将其转化为加湿器的一种新能力（限50字）。",
   "step2_hidden_need": "思考过程：在这个新能力下，设想用户交互动线中的哪一个具体瞬间，解决了他们未曾察觉的隐性痛点（限50字）。",
@@ -278,8 +286,7 @@ def generate_context(source_product: str, selected_attrs: list) -> dict:
     # 1. 调用大模型
     raw = llm_chat([{"role": "user", "content": prompt}], temperature=0.8)
 
-    data = parse_json(raw)
-    
+    data = parse_json(raw)   
     # 👇 新增：在后台把大模型的“完整作答（含草稿）”华丽地打印出来！
     print(f"\n========== 【阶段一】Gemini 的暗箱推演过程 ==========")
     print(json.dumps(data, ensure_ascii=False, indent=2))
@@ -313,13 +320,12 @@ def generate_solution(source_product: str, selected_attrs: list, scene: str, use
 3. 严格遵循以下JSON格式，不要有多余文字：
 
 {{
-  "short_scene": "高度概括的场景（不超过20字）",
-  "short_users": "高度概括的人群（不超过20字）",
-  "short_pain_points": "高度概括的痛点（不超过20字）",
+  "short_scene": "高度概括的场景（不超过30字）",
+  "short_users": "高度概括的人群（不超过30字）",
+  "short_pain_points": "高度概括的痛点（不超过30字）",
   "summary": "一句话概念总结（新产品名称+核心卖点）",
-  "functions": "具体的产品功能（它是如何解决上述痛点的？）",
-  "form_structure": "形态与物理结构（外观长什么样？使用了什么材料或结构？）",
-  "feedback": "人机交互反馈方式"
+  "functions": "具体的产品功能（它是如何解决上述痛点的？），不超过100字",
+  "feedback": "人机交互反馈方式"，不超过100字
 }}
 """
     raw = llm_chat([{"role": "user", "content": prompt}], temperature=0.7)
@@ -356,7 +362,7 @@ def generate_image_logic(prompt: str) -> str:
         headers = {"Authorization": f"Bearer {IMAGE_API_KEY}"} 
         
         payload = {
-            "model": "gemini-2.5-flash-image-vip", # 确保模型名与新平台一致
+            "model": "nano-banana-vip", # 确保模型名与新平台一致
             "prompt": prompt,
             "response_format": "url"
         }

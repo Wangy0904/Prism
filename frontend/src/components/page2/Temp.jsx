@@ -122,15 +122,7 @@ export default function ConceptCard({
                     onClick={(e) => e.stopPropagation()}
                   />
                 </div>
-                <div className="edit-field">
-                  <label>结构：</label>
-                  <textarea
-                    className="edit-textarea"
-                    value={editingData?.form_structure || ""}
-                    onChange={(e) => onEditingChange({ ...editingData, form_structure: e.target.value })}
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                </div>
+                
                 <div className="edit-field">
                   <label>反馈：</label>
                   <textarea
@@ -145,7 +137,7 @@ export default function ConceptCard({
               <>
                 <h4 className="solution-summary">{textData.summary}</h4>
                 {textData.functions && <p><strong>功能：</strong>{textData.functions}</p>}
-                {textData.form_structure && <p><strong>结构：</strong>{textData.form_structure}</p>}
+                
                 {textData.feedback && <p><strong>反馈：</strong>{textData.feedback}</p>}
               </>
             )}

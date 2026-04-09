@@ -270,7 +270,6 @@ export default function Workspace({ onNext, initialAiItems = [], initialProduct,
 
   // 核心逻辑：处理用户点击 AI 推荐的产品
  const handleApplyRecommendedProduct = (productName, intent, customImgUrl) => {
-
     if (customImgUrl) {
       const existingCard = cards.find((c) => c.image === customImgUrl);
       if (existingCard) {
@@ -279,6 +278,7 @@ export default function Workspace({ onNext, initialAiItems = [], initialProduct,
         return;
       }
     }
+
     // 1. 自动重命名逻辑：检查是否重名，如果重名就加后缀 1, 2, 3...
     let finalProductName = productName;
     let counter = 1;
@@ -310,6 +310,8 @@ export default function Workspace({ onNext, initialAiItems = [], initialProduct,
   // 👇 2. 将新增的 useEffect 放在这里（紧接着 handleApplyRecommendedProduct 的下面）
   useEffect(() => {
     if (initialProduct && initialProduct.productName && !hasInitialized.current) {
+      console.log("【工作台】我接收到了新产品，它的链接是：", initialProduct.imgUrl);
+
       handleApplyRecommendedProduct(
         initialProduct.productName, 
         initialProduct.intent, 
