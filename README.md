@@ -1,6 +1,6 @@
-AI-Driven Design Divergence Pipeline
+# 📐 PRISM: 基于语义折射的跨界产品创新引擎 🌈
 
-🌟 项目亮点 (Key Features)
+## 🌟 项目亮点 (Key Features)
 一个基于 AI 提示词驱动的工业设计发散系统，旨在通过三阶段 AI 管线辅助设计师完成从原始意图到创新方案的跨界迁移。
 ⚡ Semantic Leap: 突破设计固着，实现跨维度灵感发散
 “用算法打破认知边界，从语义深处挖掘最远距离的‘跨界’刺激。”
@@ -18,7 +18,7 @@ AI-Driven Design Divergence Pipeline
 - 感官闭环反馈：特别强化了对“人机交互闭环”的设计，定义产品如何通过视觉、听觉、触觉等感官维度给予用户实时的状态反馈。
 
 
-# 快速开始 (Getting Started)
+## 快速开始 (Getting Started)
 1. 后端配置 (Backend Setup)
 - cd backend
 - python -m venv venv
