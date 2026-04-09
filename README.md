@@ -2,6 +2,10 @@
 
 
 
+https://github.com/user-attachments/assets/a4224474-5044-432e-beb8-ed613508fc69
+
+
+
 ## 🌟 项目亮点 (Key Features)
 一个基于 AI 提示词驱动的工业设计发散系统，旨在通过三阶段 AI 管线辅助设计师完成从原始意图到创新方案的跨界迁移。
 ⚡ Semantic Leap: 突破设计固着，实现跨维度灵感发散
